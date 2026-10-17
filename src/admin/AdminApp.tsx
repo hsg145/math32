@@ -6,11 +6,12 @@ import { ar } from '../lib/format';
 import { Loading } from '../lib/ui';
 import { load, save } from '../lib/router';
 import type { SyncPayload } from '../lib/types';
-import { activeCode, createSession, settle, sync, teacherAction, teacherConfig } from '../lib/api';
+import { activeCode, createSession, settle, teacherAction, teacherConfig, teacherSync } from '../lib/api';
 import { useLive } from '../lib/live';
 import { msUntil } from '../lib/clock';
 import { ControlPanel, LiveMonitor, SessionHeader, type TeacherAction } from './ControlPanel';
 import { QuestionManager } from './QuestionManager';
+import { QuestionPreview } from './QuestionPreview';
 import { ReportPanel } from './ReportPanel';
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -20,7 +21,7 @@ import { ReportPanel } from './ReportPanel';
 const SESSION_KEY = 'qlive.session';
 const BEAT = 12_000;
 
-type Tab = 'live' | 'questions' | 'report';
+type Tab = 'live' | 'preview' | 'questions' | 'report';
 
 export function AdminApp() {
   const [session, setSession] = useState<Session | null>(null);
@@ -73,7 +74,7 @@ export function AdminApp() {
     async (quiet = true) => {
       if (!sessionId) return;
       try {
-        const d = await sync(sessionId);
+        const d = await teacherSync(sessionId);
         setData(d);
         setError(null);
       } catch (e) {
@@ -105,6 +106,16 @@ export function AdminApp() {
   }, [session, sessionId, pull, pullCode]);
 
   useLive(sessionId, () => void pull());
+
+  /* The moment a round opens, show the teacher what the students see. Only
+     hijacks the "live" tab — banking questions or the report is never
+     interrupted. The controls stay put in the sidebar either way. */
+  const wasQuestion = useRef(false);
+  useEffect(() => {
+    const live = data?.session.status === 'question';
+    if (live && !wasQuestion.current && tab === 'live') setTab('preview');
+    wasQuestion.current = live;
+  }, [data?.session.status, tab]);
 
   /* The teacher's tab also closes an expired round, so the reveal can never
      be stuck even if every student has already left. */
@@ -175,7 +186,13 @@ export function AdminApp() {
 
   return (
     <div>
-      <AdminHead tab={tab} setTab={setTab} email={session.user.email ?? ''} onSignOut={() => void supabase.auth.signOut()} />
+      <AdminHead
+        tab={tab}
+        setTab={setTab}
+        email={session.user.email ?? ''}
+        status={data?.session.status ?? ''}
+        onSignOut={() => void supabase.auth.signOut()}
+      />
 
       <div className="admin-grid">
         <main>
@@ -187,6 +204,8 @@ export function AdminApp() {
           )}
 
           {tab === 'live' && <LiveMonitor data={data} onEnsureSession={ensureSession} />}
+
+          {tab === 'preview' && <QuestionPreview data={data} />}
 
           {tab === 'questions' && (
             <QuestionManager sessionId={sessionId} onChanged={reloadQuestions} />
@@ -225,11 +244,13 @@ function AdminHead({
   tab,
   setTab,
   email,
+  status,
   onSignOut,
 }: {
   tab: Tab;
   setTab: (t: Tab) => void;
   email: string;
+  status: string;
   onSignOut: () => void;
 }) {
   return (
@@ -252,6 +273,16 @@ function AdminHead({
           >
             <Icon name="signal" size={16} />
             الجولة الحيّة
+          </button>
+          <button
+            className="tab"
+            role="tab"
+            aria-selected={tab === 'preview'}
+            onClick={() => setTab('preview')}
+          >
+            <Icon name="eye" size={16} />
+            شاشة الطلاب
+            {status === 'question' && <span className="tab-dot" />}
           </button>
           <button
             className="tab"

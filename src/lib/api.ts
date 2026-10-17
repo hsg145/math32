@@ -39,6 +39,19 @@ export async function sync(sessionId: string): Promise<SyncPayload> {
   return value;
 }
 
+/**
+ * The teacher console reads the same snapshot, but deliberately *without* a
+ * client_key. If a teacher ever previews the quiz from a device that already
+ * joined as a student, sending the key would make the database treat the
+ * console as that player (touching `last_seen` and handing back a seat).
+ * With no key the call stays a pure read and `me` is always null.
+ */
+export async function teacherSync(sessionId: string): Promise<SyncPayload> {
+  const { value, rtt } = await timed(() => rpc<SyncPayload>('rpc_sync', { p_session: sessionId }));
+  if (value?.serverNow) syncClock(value.serverNow, rtt);
+  return value;
+}
+
 /** Fire-and-forget: used when a realtime event nudges us to re-check. */
 export async function syncQuiet(sessionId: string): Promise<SyncPayload | null> {
   try {

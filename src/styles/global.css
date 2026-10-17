@@ -1966,6 +1966,22 @@ textarea {
   box-shadow: 3px 3px 0 var(--gold);
 }
 
+/* "a round is running right now" pip on the student-screen tab */
+.tab-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--no);
+  border: 1.5px solid currentColor;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-dot {
+    animation: none;
+  }
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr);

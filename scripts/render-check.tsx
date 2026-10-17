@@ -6,9 +6,10 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Figure, NumberLine } from '../src/lib/graph';
 import { QuestionCard, RevealCard } from '../src/lib/questionCard';
+import { QuestionPreview } from '../src/admin/QuestionPreview';
 import { fmtLine } from '../src/lib/format';
 import { QUESTION_BANK } from '../src/data/questionBank';
-import type { LiveQuestion } from '../src/lib/types';
+import type { LiveQuestion, SessionInfo, SyncPayload } from '../src/lib/types';
 
 const out: string[] = [];
 const pick = (i: number): LiveQuestion => {
@@ -135,6 +136,87 @@ out.push(
   ),
 );
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Teacher preview — the "what do the students see" mirror.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** Minimal but shape-accurate SyncPayload for the four preview states. */
+function payload(
+  status: SessionInfo['status'],
+  over: Partial<SessionInfo> = {},
+  slot = 10,
+): SyncPayload {
+  const now = new Date();
+  const s: SessionInfo = {
+    id: '00000000-0000-0000-0000-000000000000',
+    title: 'اختبار الاقترانات',
+    status,
+    isOpen: true,
+    questionSeconds: 20,
+    questionIndex: slot,
+    totalQuestions: 26,
+    startedAt: now.toISOString(),
+    questionStartedAt: now.toISOString(),
+    questionEndsAt: new Date(now.getTime() + 14_000).toISOString(),
+    revealedAt: null,
+    finishedAt: null,
+    answeredCount: 7,
+    playerCount: 12,
+    isTeacher: true,
+    ...over,
+  };
+  return {
+    serverNow: now.toISOString(),
+    session: s,
+    me: null,
+    question: slot >= 0 ? pick(slot) : null,
+    reveal: null,
+    myResults: [],
+    leaderboard: [],
+  };
+}
+
+const withReveal = (p: SyncPayload, correctIndex: number): SyncPayload => ({
+  ...p,
+  reveal: {
+    slot: p.session.questionIndex,
+    correctIndex,
+    explanation: QUESTION_BANK[p.session.questionIndex]!.explanation,
+    numberLine: QUESTION_BANK[p.session.questionIndex]!.numberLine ?? null,
+  },
+});
+
+/* 9. no session at all */
+out.push(
+  grab('── Preview: no session ──', () => renderToStaticMarkup(<QuestionPreview data={null} />)),
+);
+
+/* 10. lobby — waiting for the teacher to press start */
+out.push(
+  grab('── Preview: lobby ──', () =>
+    renderToStaticMarkup(<QuestionPreview data={payload('lobby', { questionIndex: -1 }, -1)} />),
+  ),
+);
+
+/* 11. live round — mirror of the student card, countdown running */
+out.push(
+  grab('── Preview: question ──', () => renderToStaticMarkup(<QuestionPreview data={payload('question')} />)),
+);
+
+/* 12. round closed — correct option plus the explanation underneath */
+out.push(
+  grab('── Preview: reveal ──', () =>
+    renderToStaticMarkup(<QuestionPreview data={withReveal(payload('reveal'), 0)} />),
+  ),
+);
+
+/* 13. finished */
+out.push(
+  grab('── Preview: finished ──', () =>
+    renderToStaticMarkup(<QuestionPreview data={payload('finished', { questionIndex: -1 }, -1)} />),
+  ),
+);
+
 const html = out.join('\n\n');
 console.log(html.length > 3000 ? `${html.slice(0, 1500)}\n\n… [truncated] …\n\n${html.slice(-1500)}` : html);
 
@@ -158,6 +240,21 @@ const checks: [string, boolean][] = [
   ['horizontal guide line drawn', html.includes('stroke-dasharray="5 4"')],
   ['countdown rendered', html.includes('class="timer')],
   ['open (hollow) markers drawn', html.includes('fill="#fff" stroke="#d6336c"')],
+  /* teacher preview */
+  ['preview names the student screen', html.includes('شاشة الطلاب الآن')],
+  ['preview is labelled read-only', html.includes('محاكاة للعرض فقط')],
+  ['preview options are all disabled (teacher cannot answer)', /class="op in"[^>]*disabled=""/.test(html)],
+  ['preview asks the teacher to start', html.includes('اضغط «ابدأ اللعبة»')],
+  [
+    'preview carries its own countdown',
+    (html.split('الوقت المتبقي').length - 1) >= 3,
+  ],
+  ['preview reveals the correct option', html.includes('class="op ok"')],
+  ['preview prints the explanation under the question', html.includes('— الحل</h3>')],
+  [
+    'preview prints the explanation body',
+    html.includes(fmtLine(QUESTION_BANK[10]!.explanation).replace(/<[^>]+>/g, '').slice(0, 18)),
+  ],
 ];
 console.log('\n── checks ──');
 let bad = 0;

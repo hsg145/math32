@@ -34,6 +34,7 @@ export function QuestionCard({
   onPick,
   onTimeUp,
   live,
+  readOnly,
 }: {
   question: LiveQuestion;
   lessonName: string;
@@ -46,12 +47,19 @@ export function QuestionCard({
   onPick: (index: number) => void;
   onTimeUp: () => void;
   live: boolean;
+  /**
+   * Teacher preview: render the identical card (including the running
+   * countdown) but the options are inert, so watching the round can never be
+   * mistaken for answering it.
+   */
+  readOnly?: boolean;
 }) {
   const figureOptions = useMemo(
     () => question.options.some((o) => o.kind === 'figure'),
     [question.options],
   );
-  const locked = answeredSlot !== null || !live;
+  const locked = answeredSlot !== null || !live || readOnly === true;
+  const showTimer = live || readOnly === true;
 
   return (
     <section className={`card ${locked ? 'still' : ''}`}>
@@ -69,7 +77,7 @@ export function QuestionCard({
 
       <div className="spread" style={{ alignItems: 'flex-start' }}>
         <h2 style={{ margin: '4px 0', flex: 1 }} dangerouslySetInnerHTML={{ __html: fmtLine(question.body) }} />
-        {live && <Timer secondsLeft={secondsLeft} total={secondsTotal} onDone={onTimeUp} />}
+        {showTimer && <Timer secondsLeft={secondsLeft} total={secondsTotal} onDone={live ? onTimeUp : undefined} />}
       </div>
 
       {question.figure && (
