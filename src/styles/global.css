@@ -889,6 +889,16 @@ textarea {
   text-align: right;
 }
 
+/* A full ranking can run to a couple of hundred seats; scroll it inside its
+   own card instead of letting it push the dashboard down the page. */
+.lb-scroll {
+  max-height: min(62vh, 720px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-inline-end: 4px;
+  scrollbar-width: thin;
+}
+
 .lb .row {
   display: grid;
   grid-template-columns: 130px 1fr 60px;

@@ -250,13 +250,19 @@ export function Badge({
         width: size,
         height: size,
         flex: 'none',
-        display: 'grid',
+        /* inline-grid, not grid: a block-level box ignores the parent's
+           `text-align: center` and hugs the inline-start edge (the right side
+           in RTL), which is why "أنهى الجميع الإجابة!" had its icon stuck in
+           the corner. Flex/grid parents still blockify it, so those are fine. */
+        display: 'inline-grid',
         placeItems: 'center',
         borderRadius: '50%',
         border: '2.5px solid var(--ink)',
         background: bg,
         color: fg,
+        verticalAlign: 'middle',
       }}
+      aria-hidden="true"
     >
       <Icon name={icon} size={Math.round(size * 0.46)} strokeWidth={2.1} />
     </span>

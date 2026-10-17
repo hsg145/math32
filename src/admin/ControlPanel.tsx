@@ -662,30 +662,41 @@ function TeacherBoard({ data }: { data: SyncPayload }) {
 
   return (
     <section className="card" style={{ marginTop: 16 }}>
-      <h3 style={{ marginTop: 0 }}>
-        <Icon name="trophy" size={18} style={{ verticalAlign: '-3px', marginInlineEnd: 6 }} />
-        النتائج على الجنب
-      </h3>
-      <div className="lb">
-        {rows.slice(0, 15).map((r, i) => (
-          <div
-            key={r.player_id}
-            className={`row ${r.rank <= 3 ? `top${r.rank}` : ''}`}
-            style={{ '--i': i } as CSSProperties}
-          >
-            <span className="who">
-              <span className="rk">{ar(r.rank)}</span>
-              <Avatar emoji={r.avatar} banner={r.banner} />
-              <b>{ar(r.name)}</b>
-            </span>
-            <i>
-              <u style={{ width: `${(r.total_points / top) * 100}%` }} />
-            </i>
-            <span className="pts">{arNum(r.total_points)}</span>
-          </div>
-        ))}
+      <div className="spread" style={{ marginBottom: 10 }}>
+        <h3 style={{ margin: 0 }}>
+          <Icon name="trophy" size={18} style={{ verticalAlign: '-3px', marginInlineEnd: 6 }} />
+          ترتيب الطلاب
+        </h3>
+        <span className="badge n">{`${ar(rows.length)} طالب`}</span>
       </div>
-      {rows.length > 15 && <p className="center tiny mut">و{ar(rows.length - 15)} طالباً آخر…</p>}
+
+      {/* Every seat, first to last. The list scrolls internally so a class of
+          200 never pushes the rest of the dashboard off the screen. */}
+      <div className="lb-scroll">
+        <div className="lb">
+          {rows.map((r, i) => (
+            <div
+              key={r.player_id}
+              className={`row ${r.rank <= 3 ? `top${r.rank}` : ''}`}
+              style={{ '--i': i } as CSSProperties}
+            >
+              <span className="who">
+                <span className="rk">{ar(r.rank)}</span>
+                <Avatar emoji={r.avatar} banner={r.banner} />
+                <b>{ar(r.name)}</b>
+              </span>
+              <i>
+                <u style={{ width: `${(r.total_points / top) * 100}%` }} />
+              </i>
+              <span className="pts">{arNum(r.total_points)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="center tiny mut" style={{ margin: '10px 0 0' }}>
+        {`المتصدر ${ar(rows[0]!.name)} · الأخير ${ar(rows[rows.length - 1]!.name)}`}
+      </p>
     </section>
   );
 }

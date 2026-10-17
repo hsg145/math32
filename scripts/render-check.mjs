@@ -25,7 +25,7 @@ await build({
 const run = spawnSync(process.execPath, [out], { stdio: 'inherit' });
 
 /* the segmented code input + the emoji picker are separate entries */
-for (const entry of ['test-codeinput.tsx', 'test-picker.tsx', 'test-avatar.tsx', 'test-optionbox.tsx']) {
+for (const entry of ['test-codeinput.tsx', 'test-picker.tsx', 'test-avatar.tsx', 'test-optionbox.tsx', 'test-badge.tsx']) {
   const outN = resolve(here, `.${entry.replace('.tsx', '')}.cjs`);
   await build({
     entryPoints: [resolve(here, entry)],
