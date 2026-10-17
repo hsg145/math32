@@ -1,0 +1,20 @@
+# ── ignoré par git ────────────────────────────────────────────────────────
+node_modules
+dist
+.vercel
+
+# secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+.envrc
+service-account*.json
+
+# generated / caches
+scripts/.*.cjs
+scripts/.*.mjs
+tsconfig.tsbuildinfo
+
+.DS_Store
+Thumbs.db
+*.log

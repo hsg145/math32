@@ -1,0 +1,50 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: SQL syntax + declaration order
+        run: npm run check:sql
+
+      - name: Question bank matches the original HTML (372 checks)
+        run: npm run verify:port
+
+      - name: Rendered UI checks (64)
+        run: npm run render:check
+
+      - name: Secret scan
+        run: |
+          if git grep -nIE "sb_secret_[A-Za-z0-9_]+|service_role.{0,12}eyJ|sb_secret_.*eyJ" -- . \
+             ':!*.example' ':!.gitignore' ':!SECURITY.md'; then
+            echo "::error::a secret key is committed — rotate it immediately"
+            exit 1
+          fi
+          echo "no committed secrets"
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}

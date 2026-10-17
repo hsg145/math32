@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>اختبار الاقترانات – الوحدة الثانية (الدروس ١–٦)</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3ff;--gl:#cfd9f4;--ink:#1e2a78;--tx:#16204f;--card:#fff;--mut:#5a64a0;--ok:#0a9b6e;--no:#d6336c;--gold:#ffc933;--okb:#e0f7ee;--nob:#fde6ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1536;--gl:#1d2658;--ink:#aab6ff;--tx:#eaedff;--card:#182050;--mut:#9aa4e0;--okb:#0e3b33;--nob:#47182f}}
+:root[data-theme="dark"]{--bg:#0f1536;--gl:#1d2658;--ink:#aab6ff;--tx:#eaedff;--card:#182050;--mut:#9aa4e0;--okb:#0e3b33;--nob:#47182f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Readex Pro',Tahoma,'Segoe UI',sans-serif;color:var(--tx);background:var(--bg);background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:28px 28px;line-height:1.8}
+#app{max-width:780px;margin:0 auto;padding:22px 14px 50px}
+.card{background:var(--card);border:2.5px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--ink);padding:22px}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.25;margin:6px 0 10px;font-weight:800;color:var(--ink)}
+h2{font-size:clamp(18px,3.4vw,23px);line-height:1.8;margin:14px 0;font-weight:600}
+.hero{display:grid;gap:14px}
+.hero .g{width:100%;height:auto;border:2px solid var(--ink);border-radius:14px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.chips span,.badge{background:var(--gold);color:#16204f;border-radius:99px;padding:3px 14px;font-size:14px;font-weight:600}
+.btn{font:inherit;font-weight:800;font-size:18px;background:var(--ink);color:var(--card);border:0;border-radius:14px;padding:12px 30px;cursor:pointer;box-shadow:4px 4px 0 var(--gold);transition:transform .15s}
+.btn:hover{transform:translate(-2px,-2px)}.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink);box-shadow:none}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--mut);font-weight:600}
+.bar{height:10px;background:var(--gl);border-radius:9px;margin:10px 0;overflow:hidden}.bar i{display:block;height:100%;background:var(--ink);border-radius:9px;transition:width .4s}
+.m{direction:ltr;unicode-bidi:isolate;display:inline-block;font-weight:600;color:var(--ink);background:rgba(30,42,120,.07);border-radius:8px;padding:0 8px}
+.pan{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:6px;margin:12px 0;text-align:center}
+.g{max-width:100%;height:auto;direction:ltr}.pan .g{max-width:420px;width:100%}
+.ops{display:grid;gap:10px;margin-top:14px}.ops.gr{grid-template-columns:1fr 1fr}
+.op{font:inherit;color:var(--tx);background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:10px 14px;text-align:right;cursor:pointer;display:flex;gap:12px;align-items:center;transition:transform .12s,background .2s}
+.op:hover:not(:disabled){transform:translateX(-4px);background:var(--gl)}
+.op b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--card);display:grid;place-items:center}
+.op span{flex:1;min-width:0}.op:disabled{cursor:default}.op .g{max-width:100%}
+.op.ok{background:var(--okb);border-color:var(--ok)}.op.ok b{background:var(--ok)}.op.no{background:var(--nob);border-color:var(--no)}.op.no b{background:var(--no)}
+.gr .op{flex-direction:column;padding:8px}.gr .op span{background:#fff;border-radius:8px;width:100%}
+.ex{margin-top:16px;border-radius:14px;padding:6px 16px 12px;border-right:7px solid}.ex.good{background:var(--okb);border-color:var(--ok)}.ex.bad{background:var(--nob);border-color:var(--no)}
+.ex h3{margin:8px 0 0}.ex p{margin:6px 0}.nl{width:100%;max-width:400px;color:var(--ink);direction:ltr}
+.nav{display:flex;justify-content:space-between;margin-top:18px;gap:10px}
+.res{text-align:center}.ring{width:170px;margin:6px auto}
+.lb{display:grid;gap:8px;text-align:right;margin:18px 0}.lb div{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:15px}
+.lb i{display:block;height:12px;border-radius:9px;background:var(--gl)}.lb i u{display:block;height:100%;border-radius:9px;background:var(--ok)}
+.cs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.cs button{font:inherit;font-weight:800;border-radius:12px;padding:8px 0;border:2px solid;cursor:pointer;color:var(--tx)}
+.cs .ok{background:var(--okb);border-color:var(--ok)}.cs .no{background:var(--nob);border-color:var(--no)}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media (max-width:520px){.card{padding:14px;box-shadow:4px 4px 0 var(--ink)}.lb div{grid-template-columns:100px 1fr 38px}.cs{grid-template-columns:repeat(4,1fr)}}
+.cv:not([stroke-dasharray]){stroke-dasharray:1;stroke-dashoffset:1;animation:dr 1.4s .25s ease forwards}
+.still .cv:not([stroke-dasharray]){animation:none;stroke-dashoffset:0}
+@keyframes dr{to{stroke-dashoffset:0}}@keyframes rise{from{opacity:0;transform:translateY(16px)}}@keyframes pop{40%{transform:scale(1.04)}}
+@keyframes shake{20%,60%{transform:translateX(7px)}40%,80%{transform:translateX(-7px)}}@keyframes ring{from{stroke-dasharray:0 400}}
+@keyframes gm{to{background-position:28px 28px}}@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+body{animation:gm 6s linear infinite}.card{animation:rise .5s ease both}.card.still{animation:none}
+.op.in{animation:rise .45s ease both;animation-delay:calc(var(--i)*80ms)}.op.ok{animation:pop .45s}.op.no{animation:shake .45s}
+.ex{animation:rise .4s ease both}.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--gold)}
+.ring-c{animation:ring 1.4s .3s ease both}.cf{position:fixed;top:-20px;width:10px;height:14px;z-index:9;pointer-events:none;animation:fall linear forwards}
+.rc{border-top:2px solid currentColor;padding:0 3px;margin-left:1px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 4px;line-height:1.5}.fr i{font-style:normal;padding:0 5px}.fr i:first-child{border-bottom:2px solid currentColor}
+.sc{color:var(--ok);font-weight:800}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cv:not([stroke-dasharray]){stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const A=s=>String(s).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const F=e=>e.replace(/‹([^|›]*)\|([^›]*)›/g,'<span class="fr"><i>$1</i><i>$2</i></span>').replace(/√\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g,'√<span class="rc">$1</span>').replace(/√([\u0600-\u06FFA-Za-z0-9]+)/g,'√<span class="rc">$1</span>').replace(/\^(\d)/g,'<sup>$1</sup>').replace(/-/g,'−');
+const M=s=>A(s.replace(/\{([^}]*)\}/g,(_,e)=>'<b class="m">'+F(e)+'</b>'));
+const N=v=>A(String(v)).replace('-','−');
+const BL='#2b59ff',RD='#d6336c',GY='#8e98c8';
+function G(o){
+ const[a,b]=o.x,[c,d]=o.y,W=o.W||300,H=o.H||W*(d-c)/(b-a),ux=W/(b-a),uy=H/(d-c),P=20,gx=o.gx||1,gy=o.gy||1,
+ X=x=>P+(x-a)*ux,Y=y=>P+(d-y)*uy,id='k'+(G.n=(G.n||0)+1);
+ let s=`<svg viewBox="0 0 ${W+2*P} ${H+2*P}" class="g"><defs><clipPath id="${id}"><rect x="${P}" y="${P}" width="${W}" height="${H}"/></clipPath></defs><rect x="${P}" y="${P}" width="${W}" height="${H}" fill="#fff"/>`;
+ for(let x=Math.ceil(a/gx)*gx;x<=b+1e-9;x+=gx)s+=`<line x1="${X(x)}" x2="${X(x)}" y1="${P}" y2="${P+H}" stroke="#dbe3f7" stroke-width="1"/>`;
+ for(let y=Math.ceil(c/gy)*gy;y<=d+1e-9;y+=gy)s+=`<line y1="${Y(y)}" y2="${Y(y)}" x1="${P}" x2="${P+W}" stroke="#dbe3f7" stroke-width="1"/>`;
+ const ax=Math.min(Math.max(0,a),b),ay=Math.min(Math.max(0,c),d);
+ s+=`<g stroke="#16204f" stroke-width="1.6" fill="#16204f"><line x1="${P}" x2="${P+W}" y1="${Y(ay)}" y2="${Y(ay)}"/><line y1="${P}" y2="${P+H}" x1="${X(ax)}" x2="${X(ax)}"/><path stroke="none" d="M${P+W+2} ${Y(ay)}l-8-4v8zM${X(ax)} ${P-2}l-4 8h8z"/></g>`;
+ if(o.lab!==0){s+='<g font-size="10" fill="#16204f" text-anchor="middle" font-family="sans-serif">';
+  for(let x=Math.ceil(a/gx)*gx;x<=b+1e-9;x+=gx)if(Math.abs(x)>1e-9)s+=`<text x="${X(x)}" y="${Y(ay)+(ay>c+1e-9?12:-4)}">${N(+x.toFixed(2))}</text>`;
+  for(let y=Math.ceil(c/gy)*gy;y<=d+1e-9;y+=gy)if(Math.abs(y)>1e-9)s+=`<text x="${X(ax)-4}" y="${Y(y)+3}" text-anchor="end">${N(+y.toFixed(2))}</text>`;
+  s+=`</g><text x="${P+W-2}" y="${Y(ay)-8}" font-size="13" font-weight="700" text-anchor="end" fill="#16204f">س</text><text x="${X(ax)+8}" y="${P+11}" font-size="13" font-weight="700" fill="#16204f">ص</text>`}
+ s+=`<g clip-path="url(#${id})" fill="none">`;
+ (o.hl||[]).forEach(h=>s+=`<line x1="${P}" x2="${P+W}" y1="${Y(h.y)}" y2="${Y(h.y)}" stroke="${h.c}" stroke-width="1.5" stroke-dasharray="5 4"/>`);
+ (o.f||[]).forEach(k=>{const[lo,hi]=k.d||[a,b];let p='',up=0;for(let i=0;i<=240;i++){const x=lo+(hi-lo)*i/240,y=k.f(x);if(!isFinite(y)){up=0;continue}p+=(up?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1);up=1}
+  s+=`<path class="cv" pathLength="1" d="${p}" stroke="${k.c}" stroke-width="${k.w||2.6}" ${k.dash?'stroke-dasharray="0.02 0.015"':''} stroke-linecap="round"/>`});
+ s+='</g>';
+ (o.pts||[]).forEach(p=>{s+=`<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="4.6" fill="${p.t=='o'?'#fff':p.c||'#16204f'}" stroke="${p.c||'#16204f'}" stroke-width="2"/>`;if(p.l)s+=`<text x="${X(p.x)+7}" y="${Y(p.y)-7}" font-size="13" font-weight="700" fill="${p.c||'#16204f'}">${p.l}</text>`});
+ (o.lb||[]).forEach(t=>s+=`<text x="${X(t.x)}" y="${Y(t.y)}" font-size="15" font-weight="800" fill="${t.c}">${t.t}</text>`);
+ return s+'</svg>'}
+function NL(r,sg,cl){const n=r.length,W=320,w=W/(n+1);let t=`<svg viewBox="0 0 ${W+40} 62" class="nl"><g stroke="currentColor" stroke-width="2" fill="currentColor"><line x1="8" x2="${W+32}" y1="32" y2="32"/><path stroke="none" d="M6 32l9-5v10zM${W+34} 32l-9-5v10z"/></g>`;
+ for(let i=0;i<=n;i++)t+=`<text x="${20+w*(i+.5)}" y="22" text-anchor="middle" font-size="22" font-weight="800" fill="${sg[i]=='+'?'#0a9b6e':'#d6336c'}">${sg[i]}</text>`;
+ r.forEach((v,i)=>t+=`<circle cx="${20+w*(i+1)}" cy="32" r="5" fill="${cl&&cl[i]?'currentColor':'#fff'}" stroke="currentColor" stroke-width="2"/><text x="${20+w*(i+1)}" y="55" text-anchor="middle" font-size="13" fill="currentColor">${N(v)}</text>`);
+ return t+'</svg>'}
+const sq=Math.sqrt,mini=(f,d)=>()=>G({x:[-4,6],y:[-3,4],W:150,gx:2,lab:0,f:[{f:sq,c:GY,dash:1,d:[0,6],w:2},{f,c:RD,d}]});
+const Q=[
+{l:0,t:'انسحبت النقطة {أ(-3 ، 2)} مسافة 5 وحدات إلى اليمين ثم 4 وحدات إلى الأسفل. ما إحداثيات صورتها؟',g:()=>G({x:[-5,5],y:[-4,4],pts:[{x:-3,y:2,c:BL,l:'أ'}]}),o:['{(2 ، -2)}','{(-8 ، 6)}','{(2 ، 6)}','{(-8 ، -2)}'],a:0,e:'الانسحاب إلى اليمين يزيد الإحداثي السيني، والانسحاب إلى الأسفل ينقص الإحداثي الصادي: {(-3+5 ، 2-4) = (2 ، -2)}.'},
+{l:0,t:'يمثل الشكل منحنى الاقتران {ق(س) = س^2} (الأزرق) ومنحنى الاقتران ل (الأحمر). ما قاعدة الاقتران ل؟',g:()=>G({x:[-4,6],y:[-4,7],W:330,f:[{f:x=>x*x,c:BL},{f:x=>(x-2)**2-3,c:RD}],lb:[{x:-2.7,y:5.5,t:'ق',c:BL},{x:4.4,y:3.8,t:'ل',c:RD}],pts:[{x:2,y:-3,c:RD}]}),o:['{ل(س) = (س-2)^2 - 3}','{ل(س) = (س+2)^2 - 3}','{ل(س) = (س-2)^2 + 3}','{ل(س) = (س+2)^2 + 3}'],a:0,e:'رأس ل هو {(2 ، -3)}؛ أي انسحاب ق بمقدار 2 وحدتين إلى اليمين (لذلك {س-2}) و3 وحدات إلى الأسفل (لذلك {-3}).'},
+{l:0,t:'منحنى الاقتران {ل(س) = (س+3)^2 - 2} هو انسحاب لمنحنى الاقتران {ق(س) = س^2} بمقدار:',o:['3 وحدات إلى اليسار و2 إلى الأسفل','3 وحدات إلى اليمين و2 إلى الأسفل','3 وحدات إلى اليسار و2 إلى الأعلى','2 وحدتين إلى اليسار و3 إلى الأسفل'],a:0,e:'{ق(س+جـ)} مع {جـ>0} انسحاب إلى اليسار بمقدار {جـ}، والعدد {-2} خارج القوس انسحاب إلى الأسفل بمقدار 2.'},
+{l:0,t:'باستخدام إكمال المربع، يمكن الحصول على منحنى {هـ(س) = س^2 - 8س + 13} بانسحاب منحنى {ق(س) = س^2} بمقدار:',o:['4 وحدات إلى اليمين و3 إلى الأسفل','4 وحدات إلى اليسار و3 إلى الأسفل','4 وحدات إلى اليمين و3 إلى الأعلى','8 وحدات إلى اليمين و13 إلى الأعلى'],a:0,e:'المقدار {(‹-8|2›)^2 = 16}، إذن {هـ(س) = (س^2 - 8س + 16) - 3 = (س-4)^2 - 3}: انسحاب 4 يميناً و3 للأسفل.'},
+{l:0,t:'اعتماداً على الشكل الرمادي المتقطع {ق(س) = √س}، أي الرسوم الآتية يمثل منحنى {ل(س) = √(س+2)} (الأحمر)؟',go:1,o:[mini(x=>sq(x-2),[2,6]),mini(x=>sq(x)+2,[0,6]),mini(x=>sq(x+2),[-2,6]),mini(x=>sq(x)-2,[0,6])],a:2,e:'{ق(س+2)} انسحاب إلى اليسار بمقدار 2؛ فتتحرك نقطة البداية من {(0 ، 0)} إلى {(-2 ، 0)} ويبقى شكل المنحنى كما هو.'},
+{l:1,t:'صورة النقطة {(3 ، -4)} بانعكاس في محور الصادات هي:',g:()=>G({x:[-5,5],y:[-5,3],pts:[{x:3,y:-4,c:BL}]}),o:['{(-3 ، -4)}','{(3 ، 4)}','{(-3 ، 4)}','{(-4 ، 3)}'],a:0,e:'الانعكاس في محور الصادات يغيّر إشارة الإحداثي السيني فقط: {(س ، ص) → (-س ، ص)}.'},
+{l:1,t:'التحويلات الهندسية التي تنقل منحنى {ق(س)} إلى منحنى {ل(س) = -ق(س-2) + 3} هي:',o:['انسحاب 2 يميناً، ثم انعكاس في محور السينات، ثم انسحاب 3 للأعلى','انعكاس في محور الصادات، ثم انسحاب 2 يساراً و3 للأعلى','انسحاب 2 يساراً، ثم انعكاس في محور السينات، ثم انسحاب 3 للأسفل','انعكاس في محور السينات، ثم انسحاب 3 يميناً و2 للأعلى'],a:0,e:'{ق(س-2)} انسحاب 2 يميناً، والإشارة السالبة أمام الاقتران {-ق} انعكاس في محور السينات، و{+3} انسحاب 3 وحدات للأعلى.'},
+{l:1,t:'المنحنى الأحمر ل هو انعكاس لمنحنى الاقتران ق (الأزرق) في محور الصادات. ما قاعدة الاقتران ل؟',g:()=>G({x:[-6,6],y:[-1,10],W:330,f:[{f:x=>(x-2)**2+1,c:BL},{f:x=>(x+2)**2+1,c:RD}],lb:[{x:4.5,y:8.4,t:'ق',c:BL},{x:-5,y:8.4,t:'ل',c:RD}]}),o:['{ل(س) = (س+2)^2 + 1}','{ل(س) = -(س-2)^2 - 1}','{ل(س) = (س+2)^2 - 1}','{ل(س) = (س-2)^2 + 1}'],a:0,e:'الانعكاس في محور الصادات هو {ق(-س)}؛ إذا كان {ق(س) = (س-2)^2 + 1} فإن {ق(-س) = (-س-2)^2 + 1 = (س+2)^2 + 1}.'},
+{l:1,t:'إذا كان {ق(س) = س^3 + 1}، فما قيمة {ق(-2) + (-ق(2))}؟',o:['{-16}','{-2}','{16}','{2}'],a:0,e:'{ق(-2) = -8 + 1 = -7}، و{ق(2) = 8 + 1 = 9} فيكون {-ق(2) = -9}. المجموع {-7 + (-9) = -16}.'},
+{l:2,t:'إشارة الاقتران الخطي {ق(س) = 6 - 2س} موجبة عندما:',o:['{س < 3}','{س > 3}','{س < -3}','{س > -3}'],a:0,n:[[3],'+-'],e:'صفر الاقتران: {6-2س=0} فيكون {س=3}. معامل س هو {-2} (سالب)؛ فإشارة الاقتران نفس إشارة معامل س (سالبة) عندما {س > 3}، وعكسها (موجبة) عندما {س < 3}.'},
+{l:2,t:'اعتماداً على منحنى الاقتران {ق(س) = س^2 - س - 6} المرسوم، ما الفترة التي يكون فيها {ق(س) > 0}؟',g:()=>G({x:[-4,5],y:[-7,6],W:330,f:[{f:x=>x*x-x-6,c:BL}],pts:[{x:-2,y:0,c:RD},{x:3,y:0,c:RD}]}),o:['{(-∞ ، -2) ∪ (3 ، ∞)}','{(-2 ، 3)}','{(-∞ ، -3) ∪ (2 ، ∞)}','{(3 ، ∞)}'],a:0,n:[[-2,3],'+-+'],e:'المنحنى يقع فوق محور السينات قبل الصفر {-2} وبعد الصفر {3}، فالاقتران موجب في {(-∞ ، -2) ∪ (3 ، ∞)}.'},
+{l:2,t:'إشارة الاقتران {ق(س) = س^2 + 3س - 10} سالبة في الفترة:',o:['{(-5 ، 2)}','{(-2 ، 5)}','{(-∞ ، -5) ∪ (2 ، ∞)}','{(2 ، ∞)}'],a:0,n:[[-5,2],'+-+'],e:'{س^2+3س-10 = (س+5)(س-2)} وأصفاره {-5} و{2}. إشارة معامل {س^2} موجبة، والإشارة تعاكسها بين الصفرين فتكون سالبة في {(-5 ، 2)}.'},
+{l:2,t:'ما الفترات التي تكون فيها إشارة الاقتران النسبي {ق(س) = ‹س+3|س^2-2س-3›} موجبة، علماً أن {س ≠ 3 ، -1}؟',o:['{(-3 ، -1) ∪ (3 ، ∞)}','{(-∞ ، -3) ∪ (-1 ، 3)}','{(-1 ، 3)}','{(-3 ، 3)}'],a:0,n:[[-3,-1,3],'-+-+'],e:'البسط {س+3} صفره {-3}. المقام {(س-3)(س+1)} صفراه {3} و{-1}. بتحديد إشارة النسبة على خط الأعداد تكون موجبة في {(-3 ، -1) ∪ (3 ، ∞)}.'},
+{l:2,t:'يمثل الشكل منحنى الاقتران {ق(س) = س(س-3)(س+2)}. ما الفترات التي يكون فيها {ق(س) > 0}؟',g:()=>G({x:[-3,4.5],y:[-10,10],W:340,gx:1,gy:2,f:[{f:x=>x*(x-3)*(x+2),c:BL}],pts:[{x:-2,y:0,c:RD},{x:0,y:0,c:RD},{x:3,y:0,c:RD}]}),o:['{(-2 ، 0) ∪ (3 ، ∞)}','{(-∞ ، -2) ∪ (0 ، 3)}','{(-2 ، 3)}','{(-∞ ، -2) ∪ (3 ، ∞)}'],a:0,n:[[-2,0,3],'-+-+'],e:'المنحنى فوق محور السينات بين الصفرين {-2} و{0}، وبعد الصفر {3}؛ إذن {ق(س) > 0} في {(-2 ، 0) ∪ (3 ، ∞)}.'},
+{l:3,t:'ما مجموعة حل المتباينة {س^2 + 3س < 4}؟',o:['{(-4 ، 1)}','{(-∞ ، -4) ∪ (1 ، ∞)}','{(-1 ، 4)}','{[-4 ، 1]}'],a:0,n:[[-4,1],'+-+'],e:'ننقل الحدود: {س^2+3س-4 < 0} أي {(س+4)(س-1) < 0}. تكون العبارة سالبة بين الصفرين فقط: {-4 < س < 1}.'},
+{l:3,t:'ما مجموعة حل المتباينة {س^2 + س - 12 ≥ 0}؟',o:['{(-∞ ، -4] ∪ [3 ، ∞)}','{(-4 ، 3)}','{[-4 ، 3]}','{(-∞ ، -3] ∪ [4 ، ∞)}'],a:0,n:[[-4,3],'+-+',[1,1]],e:'{س^2+س-12 = (س+4)(س-3)}، أصفارها {-4} و{3}. نطلب العبارة موجبة أو صفراً، فنأخذ الفترتين الخارجيتين مع الصفرين (أقواس مغلقة).'},
+{l:3,t:'ربح محل (بالدينار) يعطى بالعلاقة {ر = -100(س-1.75)^2 + 300} حيث س سعر بيع الفطيرة. ما الأسعار التي يكون الربح عندها أكبر من 275 ديناراً؟',g:()=>G({x:[0,4],y:[0,320],W:340,H:200,gx:1,gy:50,f:[{f:x=>-100*(x-1.75)**2+300,c:BL}],hl:[{y:275,c:RD}],pts:[{x:1.25,y:275,t:'o',c:RD},{x:2.25,y:275,t:'o',c:RD}]}),o:['{(1.25 ، 2.25)}','{(0.5 ، 3)}','{(1.5 ، 2)}','{(1.25 ، 3)}'],a:0,e:'{-100(س-1.75)^2+300 > 275} فيكون {(س-1.75)^2 < 0.25}، أي {-0.5 < س-1.75 < 0.5}، ومنها {1.25 < س < 2.25}.'},
+{l:4,t:'إذا كان {ق(س) = س+1} عندما {س ≤ 1}، و{ق(س) = 2س} عندما {س > 1}، فما قيمة {ق(-2) + ق(3)}؟',o:['{5}','{3}','{9}','{7}'],a:0,e:'{-2 ≤ 1} فنستخدم القاعدة الأولى: {ق(-2) = -1}. و{3 > 1} فنستخدم الثانية: {ق(3) = 6}. المجموع {5}.'},
+{l:4,t:'يمثل الشكل الاقتران متعدد القاعدة {ق(س) = س+5} عندما {س ≤ -3}، و{ق(س) = س-2} عندما {س > -3}. ما قيمة {ق(-3) + ق(0)}؟',g:()=>G({x:[-7,4],y:[-6,6],W:340,f:[{f:x=>x+5,c:BL,d:[-7,-3]},{f:x=>x-2,c:RD,d:[-3,4]}],pts:[{x:-3,y:2,c:BL},{x:-3,y:-5,t:'o',c:RD}]}),o:['{0}','{-7}','{3}','{-3}'],a:0,e:'الدائرة المغلقة عند {(-3 ، 2)} تعني {ق(-3) = 2} (القاعدة الأولى). و{ق(0) = 0-2 = -2}. المجموع {0}.'},
+{l:4,t:'يمثل الشكل منحنى الاقتران {ق(س) = 3} عندما {س < -4}، و{ق(س) = س} عندما {-4 ≤ س ≤ 2}، و{ق(س) = -س+6} عندما {س > 2}. ما قيمة {ق(-5) + ق(-3) + ق(4)}؟',g:()=>G({x:[-6,6],y:[-5,6],W:340,f:[{f:x=>3,c:BL,d:[-6,-4]},{f:x=>x,c:RD,d:[-4,2]},{f:x=>6-x,c:'#0a9b6e',d:[2,6]}],pts:[{x:-4,y:3,t:'o',c:BL},{x:-4,y:-4,c:RD},{x:2,y:2,c:RD},{x:2,y:4,t:'o',c:'#0a9b6e'}]}),o:['{2}','{0}','{4}','{-2}'],a:0,e:'{ق(-5) = 3} (لأن {-5 < -4})، و{ق(-3) = -3}، و{ق(4) = -4+6 = 2}. المجموع {3-3+2 = 2}.'},
+{l:5,t:'إذا كان {ق(س) = |س - 3|}، فما قيمة {ق(-2) + ق(5)}؟',o:['{7}','{3}','{-7}','{10}'],a:0,e:'{ق(-2) = |-2-3| = |-5| = 5}، و{ق(5) = |5-3| = 2}. المجموع {5+2 = 7}.'},
+{l:5,t:'ما قيمة {|3 - 7| - |-2|}؟',o:['{2}','{6}','{-6}','{-2}'],a:0,e:'القيمة المطلقة لا تكون سالبة أبداً: {|3-7| = |-4| = 4} و{|-2| = 2}. الناتج {4-2 = 2}.'},
+{l:5,t:'يمثل الشكل منحنى {ق(س) = |س|} (الأزرق) ومنحنى الاقتران ل (الأحمر). ما قاعدة الاقتران ل؟',g:()=>G({x:[-5,6],y:[-1,7],W:330,f:[{f:Math.abs,c:BL},{f:x=>Math.abs(x-2)+1,c:RD}],lb:[{x:-4.2,y:4.7,t:'ق',c:BL},{x:5,y:5,t:'ل',c:RD}],pts:[{x:2,y:1,c:RD}]}),o:['{ل(س) = |س-2| + 1}','{ل(س) = |س+2| + 1}','{ل(س) = |س-2| - 1}','{ل(س) = |س+1| - 2}'],a:0,e:'رأس المنحنى الأحمر {(2 ، 1)}؛ أي انسحاب منحنى {|س|} بمقدار وحدتين إلى اليمين (لذلك {س-2}) ووحدة واحدة إلى الأعلى (لذلك {+1}).'},
+{l:5,t:'أي الآتية تمثل إعادة تعريف الاقتران {ق(س) = |س - 3|} دون استخدام رمز القيمة المطلقة؟',o:['{س-3} عندما {س ≥ 3}، و{-س+3} عندما {س < 3}','{س-3} عندما {س ≤ 3}، و{-س+3} عندما {س > 3}','{س+3} عندما {س ≥ -3}، و{-س-3} عندما {س < -3}','{-س+3} عندما {س ≥ 3}، و{س-3} عندما {س < 3}'],a:0,e:'{|س-3| = س-3} عندما {س-3 ≥ 0} أي {س ≥ 3}، و{|س-3| = -(س-3) = -س+3} عندما {س-3 < 0} أي {س < 3}.'},
+{l:5,t:'ما مدى الاقتران {ق(س) = |س| - 2} المرسوم في الشكل؟',g:()=>G({x:[-5,5],y:[-3,5],f:[{f:x=>Math.abs(x)-2,c:BL}],pts:[{x:0,y:-2,c:RD}]}),o:['{[-2 ، ∞)}','{[2 ، ∞)}','{(-∞ ، -2]}','{(-∞ ، ∞)}'],a:0,e:'{|س| ≥ 0} لكل عدد حقيقي، فأصغر قيمة للاقتران عند {س = 0} وتساوي {-2}. إذن المدى {[-2 ، ∞)}.'},
+{l:5,t:'عند إعادة تعريف {ق(س) = |4 - س^2|}، يكون {ق(س) = 4 - س^2} عندما:',o:['{-2 ≤ س ≤ 2}','{س ≤ -2} أو {س ≥ 2}','{س ≥ 2}','{س ≤ 2}'],a:0,n:[[-2,2],'-+-',[1,1]],e:'نبحث في إشارة {4-س^2 = (2-س)(2+س)}: تكون موجبة أو صفراً عندما {-2 ≤ س ≤ 2}، وعندها {|4-س^2| = 4-س^2}. وخارج هذه الفترة يصبح {ق(س) = س^2-4}.'}
+];
+const LN=['الانسحاب','الانعكاس','إشارة الاقتران','حل المتباينات','متعددة القاعدة','القيمة المطلقة'],$=document.getElementById('app'),T=Q.length;
+let i=0,ans=Array(T).fill(null),fin=false;
+function home(){fin=false;$.innerHTML=`<section class="card hero"><div><div class="chips"><span>الوحدة الثانية: الاقترانات</span><span>الدروس من 1 إلى 6</span></div><h1>اختبار الاقترانات ورسومها البيانية</h1><p>${A(T)} سؤالاً بمستوى متوسط من كتاب الرياضيات للصف العاشر: الانسحاب، الانعكاس، إشارة الاقتران، حل المتباينات، الاقترانات متعددة القاعدة، واقتران القيمة المطلقة. بعض الأسئلة تعتمد على قراءة الرسم في المستوى الديكارتي.</p><button class="btn" onclick="begin()">ابدأ الاختبار</button></div>${G({x:[-5,6],y:[-2,7],W:340,lab:0,f:[{f:x=>x*x/4,c:BL,w:3},{f:x=>(x-2)**2/4-1,c:RD,w:3}],pts:[{x:2,y:-1,c:RD}]}).replace('class="g"','class="g"')}</section>`}
+function begin(){Q.forEach(z=>{if(z.a0===undefined){z.a0=z.a;z.o0=z.o}const p=z.o0.map((_,k)=>k).sort(()=>Math.random()-.5);z.o=p.map(k=>z.o0[k]);z.a=p.indexOf(z.a0)});ans.fill(null);fin=false;show(0)}
+function show(k){i=k;const Z=Q[k],s=ans[k],L='أبجد',ok=s==Z.a;
+$.innerHTML=`<section class="card${s!=null?' still':''}"><div class="top"><span class="badge">الدرس ${A(Z.l+1)}: ${LN[Z.l]}</span><span>السؤال ${A(k+1)} من ${A(T)} <b class="sc">✓ ${A(ans.filter((a,x)=>a==Q[x].a).length)}</b></span></div><div class="bar"><i style="width:${(k+1)*100/T}%"></i></div><h2>${M(Z.t)}</h2>${Z.g?`<div class="pan">${Z.g()}</div>`:''}<div class="ops${Z.go?' gr':''}">${Z.o.map((o,j)=>`<button class="op ${s!=null?(j==Z.a?'ok':j==s?'no':''):'in'}" style="--i:${j}" ${s!=null?'disabled':''} onclick="pick(${j})"><b>${L[j]}</b><span>${typeof o=='function'?o():M(o)}</span></button>`).join('')}</div>${s!=null?`<div class="ex ${ok?'good':'bad'}"><h3>${ok?'إجابة صحيحة':'إجابة غير صحيحة'}</h3><p>${M(Z.e)}</p>${Z.n?NL(...Z.n):''}</div>`:''}<div class="nav">${fin?`<button class="btn alt" onclick="res()">العودة إلى النتيجة</button>`:s!=null?`<span></span><button class="btn" onclick="nxt()">${k<T-1?'السؤال التالي':'عرض النتيجة'}</button>`:''}</div></section>`}
+function pick(j){ans[i]=j;show(i);document.querySelector('.ex').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function nxt(){i<T-1?show(i+1):res();window.scrollTo({top:0,behavior:'smooth'})}
+function res(){fin=true;const sc=ans.filter((a,k)=>a==Q[k].a).length,p=sc/T,m=p>=.9?'ممتاز! أتقنت الدروس الستة.':p>=.7?'جيد جداً، بقيت تفاصيل بسيطة.':p>=.5?'جيد، راجع الأسئلة الخاطئة وأعد المحاولة.':'تحتاج إلى مراجعة الدروس، ثم أعد الاختبار.';
+const ls=LN.map((n,l)=>{const q=Q.filter(z=>z.l==l),c=q.filter(z=>ans[Q.indexOf(z)]==z.a).length;return`<div><span>${n}</span><i><u style="width:${c*100/q.length}%"></u></i><b>${A(c)}/${A(q.length)}</b></div>`}).join('');
+$.innerHTML=`<section class="card res"><h1>نتيجتك</h1><svg viewBox="0 0 120 120" class="ring"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--gl)" stroke-width="12"/><circle class="ring-c" cx="60" cy="60" r="52" fill="none" stroke="${p>=.6?'#0a9b6e':'#d6336c'}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${p*326.7} 400" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle" font-size="26" font-weight="800" fill="currentColor">${A(sc)}/${A(T)}</text></svg><h2>${m}</h2><div class="lb">${ls}</div><p>اضغط على أي سؤال لمراجعة إجابته وحلّه:</p><div class="cs">${Q.map((z,k)=>`<button class="${ans[k]==z.a?'ok':'no'}" onclick="show(${k})">${A(k+1)}</button>`).join('')}</div><button class="btn" onclick="begin()">إعادة الاختبار</button></section>`;window.scrollTo({top:0});if(p>=.7)confetti()}
+function confetti(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;const c=["#ffc933","#0a9b6e","#d6336c","#2b59ff"];for(let k=0;k<44;k++){const e=document.createElement("i");e.className="cf";e.style.cssText=`left:${Math.random()*100}vw;background:${c[k%4]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*.6}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),5000)}}
+home();
+</script>
+</body>
+</html>
