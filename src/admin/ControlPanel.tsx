@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+﻿import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Icon } from '../lib/icons';
 import { ar, arNum, mmss } from '../lib/format';
@@ -6,6 +6,7 @@ import { Avatar, Empty, Progress, Stat, StatusChip, Timer, confetti } from '../l
 import { msUntil } from '../lib/clock';
 import { liveDetail, rotateCode } from '../lib/api';
 import type { LiveDetail, SyncPayload } from '../lib/types';
+import { RankingBoard } from './RankingBoard';
 
 export type TeacherAction =
   | 'open'
@@ -443,7 +444,7 @@ export function LiveMonitor({
       <LiveHeader data={data} />
       <StudentsGrid data={data} />
       <Distribution data={data} />
-      <TeacherBoard data={data} />
+      <RankingBoard data={data} />
       <p className="center mut tiny" style={{ marginTop: 12 }}>
         <Icon name="info" size={13} style={{ verticalAlign: '-2px' }} /> كل الأزرار أعلاه تنفّذ فوراً على كل الأجهزة
         المتصلة
@@ -650,53 +651,6 @@ function Distribution({ data }: { data: SyncPayload }) {
           يظهر обознаش على الخيار الصحيح فور كشف الحل.
         </p>
       )}
-    </section>
-  );
-}
-
-/* ── teacher-side leaderboard ───────────────────────────────────────────── */
-function TeacherBoard({ data }: { data: SyncPayload }) {
-  const rows = data.leaderboard;
-  if (!rows.length) return null;
-  const top = Math.max(1, ...rows.map((r) => r.total_points));
-
-  return (
-    <section className="card" style={{ marginTop: 16 }}>
-      <div className="spread" style={{ marginBottom: 10 }}>
-        <h3 style={{ margin: 0 }}>
-          <Icon name="trophy" size={18} style={{ verticalAlign: '-3px', marginInlineEnd: 6 }} />
-          ترتيب الطلاب
-        </h3>
-        <span className="badge n">{`${ar(rows.length)} طالب`}</span>
-      </div>
-
-      {/* Every seat, first to last. The list scrolls internally so a class of
-          200 never pushes the rest of the dashboard off the screen. */}
-      <div className="lb-scroll">
-        <div className="lb">
-          {rows.map((r, i) => (
-            <div
-              key={r.player_id}
-              className={`row ${r.rank <= 3 ? `top${r.rank}` : ''}`}
-              style={{ '--i': i } as CSSProperties}
-            >
-              <span className="who">
-                <span className="rk">{ar(r.rank)}</span>
-                <Avatar emoji={r.avatar} banner={r.banner} />
-                <b>{ar(r.name)}</b>
-              </span>
-              <i>
-                <u style={{ width: `${(r.total_points / top) * 100}%` }} />
-              </i>
-              <span className="pts">{arNum(r.total_points)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p className="center tiny mut" style={{ margin: '10px 0 0' }}>
-        {`المتصدر ${ar(rows[0]!.name)} · الأخير ${ar(rows[rows.length - 1]!.name)}`}
-      </p>
     </section>
   );
 }

@@ -7,6 +7,7 @@ import { msUntil } from '../lib/clock';
 import { LESSONS } from '../lib/lessons';
 import { Figure, NumberLine } from '../lib/graph';
 import { OptionBody, QuestionCard } from '../lib/questionCard';
+import { RankingBoard } from './RankingBoard';
 import type { RevealPayload, SyncPayload } from '../lib/types';
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -114,6 +115,10 @@ export function QuestionPreview({ data }: { data: SyncPayload | null }) {
           </p>
         </>
       )}
+
+      {/* The teacher watches the question and the standings side by side, so
+          the full ranking travels with this tab too. */}
+      <RankingBoard data={data} />
     </>
   );
 }

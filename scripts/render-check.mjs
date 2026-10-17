@@ -11,6 +11,13 @@ const here = dirname(fileURLToPath(import.meta.url));
 const entry = resolve(here, 'render-check.tsx');
 const out = resolve(here, '.render-check.cjs');
 
+/*
+ * Vite replaces `import.meta.env` at build time; plain esbuild does not, so any
+ * module reaching for it would throw in this harness. Stub it once here instead
+ * of keeping the harness's import graph narrow by hand.
+ */
+const define = { 'import.meta.env': '{}' };
+
 await build({
   entryPoints: [entry],
   bundle: true,
@@ -18,6 +25,7 @@ await build({
   format: 'cjs',
   outfile: out,
   jsx: 'automatic',
+  define,
   loader: { '.css': 'empty' },
   logLevel: 'error',
 });
@@ -34,6 +42,7 @@ for (const entry of ['test-codeinput.tsx', 'test-picker.tsx', 'test-avatar.tsx',
     format: 'cjs',
     outfile: outN,
     jsx: 'automatic',
+    define,
     logLevel: 'error',
   });
   const r = spawnSync(process.execPath, [outN], { stdio: 'inherit' });

@@ -20,7 +20,18 @@ const read = (p: string[]): string => {
 
 const css = read([resolve(process.cwd(), 'src/styles/global.css'), 'src/styles/global.css']);
 const ui = read([resolve(process.cwd(), 'src/lib/ui.tsx'), 'src/lib/ui.tsx']);
-const panel = read([resolve(process.cwd(), 'src/admin/ControlPanel.tsx'), 'src/admin/ControlPanel.tsx']);
+const board = read([
+  resolve(process.cwd(), 'src/admin/RankingBoard.tsx'),
+  'src/admin/RankingBoard.tsx',
+]);
+const control = read([
+  resolve(process.cwd(), 'src/admin/ControlPanel.tsx'),
+  'src/admin/ControlPanel.tsx',
+]);
+const preview = read([
+  resolve(process.cwd(), 'src/admin/QuestionPreview.tsx'),
+  'src/admin/QuestionPreview.tsx',
+]);
 
 function rule(selector: string): string {
   const i = css.indexOf(selector);
@@ -40,11 +51,13 @@ const checks: [string, boolean][] = [
   ['Badge still shrinks as a flex item', /flex:\s*'none'/.test(badge)],
 
   /* ── full ranking ────────────────────────────────────────────────────── */
-  ['ranking is no longer capped at 15', !/slice\(0,\s*15\)/.test(panel)],
-  ['the "N more students" note is gone', !/طالباً آخر/.test(panel)],
-  ['every seat is mapped', /\.map\(\(r, i\)\s*=>/.test(panel) && !/\.slice\(/.test(panel)],
-  ['the last student is called out', /rows\[rows\.length\s*-\s*1\]/.test(panel)],
-  ['the class size is shown', /\$\{ar\(rows\.length\)\}\s*طالب/.test(panel)],
+  ['ranking is no longer capped at 15', !/slice\(0,\s*15\)/.test(board)],
+  ['the "N more students" note is gone', !/طالباً آخر/.test(board)],
+  ['every seat is mapped', /\.map\(\(r, i\)\s*=>/.test(board) && !/\.slice\(/.test(board)],
+  ['the last student is called out', /rows\[rows\.length\s*-\s*1\]/.test(board)],
+  ['the class size is shown', /\$\{ar\(rows\.length\)\}\s*طالب/.test(board)],
+  ['the live tab shows the ranking', /<RankingBoard\s+data=\{data\}/.test(control)],
+  ['the student-screen tab shows it too', /<RankingBoard\s+data=\{data\}/.test(preview)],
 
   /* ── the scroll container ────────────────────────────────────────────── */
   ['.lb-scroll exists', /\.lb-scroll\s*\{/.test(css)],
