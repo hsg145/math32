@@ -18,6 +18,11 @@
   --nob: #fde6ee;
   --warn: #b26a00;
   --warnb: #fff4d6;
+  /* The option surface. It must never resolve to --card: an option painted in
+     the card's own fill is invisible on the card, which is exactly what the
+     original stylesheet did. */
+  --opt: #e8eefc;
+  --opt-h: #dbe4fb;
   --b1: #7c5cff;
   --b2: #2b59ff;
   --b3: #12b3a8;
@@ -41,6 +46,8 @@
     --mut: #9aa4e0;
     --okb: #0e3b33;
     --nob: #47182f;
+    --opt: #243063;
+    --opt-h: #2e3c78;
   }
 }
 
@@ -53,6 +60,8 @@
   --mut: #9aa4e0;
   --okb: #0e3b33;
   --nob: #47182f;
+  --opt: #243063;
+  --opt-h: #2e3c78;
 }
 
 * {
@@ -569,13 +578,15 @@ textarea {
 }
 
 .ops.gr {
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0,…) — a bare 1fr floors at the content's min-content width, which
+     lets a wide figure blow the column past the card. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .op {
   font: inherit;
   color: var(--tx);
-  background: var(--card);
+  background: var(--opt);
   border: 2.5px solid var(--ink);
   border-radius: 14px;
   padding: 10px 14px;
@@ -586,14 +597,19 @@ textarea {
   align-items: center;
   transition: transform 0.12s, background 0.2s;
   width: 100%;
+  /* Long option text wraps inside the box instead of pushing past its border. */
+  overflow-wrap: anywhere;
 }
 
 .op:hover:not(:disabled) {
   transform: translateX(-4px);
-  background: var(--gl);
+  background: var(--opt-h);
 }
 
-.op b {
+/* Scoped to the DIRECT child on purpose. `.op b` also matched every
+   `<b class="m">` maths chip emitted by fmtLine, which squeezed each formula
+   into a 34×34 navy circle and let the text spill outside the option. */
+.op > b {
   flex: none;
   width: 34px;
   height: 34px;
@@ -605,7 +621,7 @@ textarea {
   font-size: 16px;
 }
 
-.op span {
+.op > span {
   flex: 1;
   min-width: 0;
 }
@@ -618,18 +634,24 @@ textarea {
   background: var(--okb);
   border-color: var(--ok);
 }
-.op.ok b {
+.op.ok > b {
   background: var(--ok);
 }
 .op.no {
   background: var(--nob);
   border-color: var(--no);
 }
-.op.no b {
+.op.no > b {
   background: var(--no);
 }
 .op.locked {
   opacity: 0.55;
+}
+
+/* A maths chip inside an option keeps its pill shape and may wrap. */
+.op .m {
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .gr .op {
@@ -638,8 +660,9 @@ textarea {
   gap: 6px;
 }
 
-.gr .op span {
+.gr .op > span {
   background: #fff;
+  color: #16204f;
   border-radius: 8px;
   width: 100%;
   padding: 4px;
